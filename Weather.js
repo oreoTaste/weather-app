@@ -68,7 +68,7 @@ const weatherOptions = {
   }
 };
 
-export default function Weather({ temp, condition }) {
+export default function Weather({ cityname, country, temp, condition }) {
   return (
     <LinearGradient colors={weatherOptions[condition].gradient} 
                     style={styles.container}>
@@ -79,6 +79,7 @@ export default function Weather({ temp, condition }) {
           size={92} 
           color="white" />
         <Text style={styles.temp}>{temp}`C</Text>
+        <Text style={styles.location}>{cityname}, {country}</Text>
       </View>
       <View style={styles.second_container}>
         <View style={styles.text_container}>
@@ -103,7 +104,9 @@ Weather.propTypes = {
     "Haze",
     "Mist",
     "Dust"
-  ]).isRequired 
+  ]).isRequired,
+  cityname : PropTypes.string.isRequired,
+  country: PropTypes.string.isRequired
 }
 
 const styles = StyleSheet.create({
@@ -117,6 +120,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
+  },
+
+  location: {
+    fontSize: 22,
+    color: "white",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    alignContent: "flex-end"
   },
 
   second_container: {
@@ -141,9 +152,11 @@ const styles = StyleSheet.create({
     color: "white",
     alignItems: "flex-start"
   },
+
   subtitle: {
     fontSize: 26,
     color: "white",
-    alignItems: "flex-start"
+    alignItems: "flex-start",
+    marginBottom: 10
   }
 });
