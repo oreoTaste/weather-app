@@ -21,8 +21,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "description": "weather app using React Native",
-    "githubUrl": "https://github.com/oreoTaste/weather-app.git"
+    }
   }
 }
