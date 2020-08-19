@@ -23,6 +23,7 @@ class App extends React.Component {
     // feels_like, temp, weather[0].main
     const {
       data: {
+        main,
         main: { feels_like, temp },
         weather,
       },
@@ -45,7 +46,7 @@ class App extends React.Component {
 
     latitude = Math.round(latitude * 10000000) / 10000000;
     longitude = Math.round(longitude * 10000000) / 10000000;
-    console.log(latitude, longitude)
+    console.log(latitude, longitude);
 
     this.setState({
       isLoading: false,
@@ -72,6 +73,7 @@ class App extends React.Component {
     const { coords } = await Location.getCurrentPositionAsync();
     this.getWeatherForecast(coords);
   };
+
 
   componentDidMount() {
     this.getLocation();
@@ -109,7 +111,7 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "red",
     alignItems: "center",
     justifyContent: "center",
   },

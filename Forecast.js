@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { render } from "react-dom";
 
 export default class extends React.Component {
 
@@ -34,13 +33,14 @@ export default class extends React.Component {
   getWeathers() {
     const {weathers} = this.props;
     const forecasts = [];
-    
+
     for(let i = 0; i < weathers.length; i++) {
       forecasts.push({
         temp: weathers[i].main.temp,
         feels_like: weathers[i].main.feels_like,  
         main: weathers[i].weather[0].main,
         icon_name: this.getIconName(weathers[i].weather[0].main),
+        dt: weathers[i].dt * 1000,
       })
     }
 
@@ -60,39 +60,71 @@ export default class extends React.Component {
         isLoading ? 
         (<Text>Loading...</Text>) : 
         (<View style={styles.root}>
+
+
           <View style={styles.container}>
-            <MaterialCommunityIcons name={forecasts[0].icon_name} size={50} color="black" />
-            <Text style={styles.temp}>{Math.round(forecasts[0].temp)}℃</Text>
-            <Text style={styles.feels_like}>({Math.round(forecasts[0].feels_like)}℃)</Text>
+            <Text style={styles.main}>
+              {new Date(forecasts[0].dt).toLocaleDateString('kor').replace(/\ /gi, "").replace(/\./gi, "/")}
+            </Text>
+            <Text style={styles.main}>
+              {new Date(forecasts[0].dt).toLocaleTimeString('kor').split(":")[0]}시
+            </Text>
+            <MaterialCommunityIcons name={forecasts[0].icon_name} size={50} style={styles.icon}/>
             <Text style={styles.main}>{forecasts[0].main}</Text>
+            <Text style={styles.temp}>{Math.round(forecasts[0].temp)}℃ ({Math.round(forecasts[0].feels_like)}℃)</Text>
           </View>
+
+
           <View style={styles.container}>
-            <MaterialCommunityIcons name={forecasts[1].icon_name} size={50} color="black" />
-            <Text style={styles.temp}>{Math.round(forecasts[1].temp)}℃</Text>
-            <Text style={styles.feels_like}>({Math.round(forecasts[1].feels_like)}℃)</Text>
+            <Text style={styles.main}>
+              {new Date(forecasts[1].dt).toLocaleDateString('kor').replace(/\ /gi, "").replace(/\./gi, "/")}
+            </Text>
+            <Text style={styles.main}>
+              {new Date(forecasts[1].dt).toLocaleTimeString('kor').split(":")[0]}시
+            </Text>
+            <MaterialCommunityIcons name={forecasts[1].icon_name} size={50} style={styles.icon}/>
             <Text style={styles.main}>{forecasts[1].main}</Text>
+            <Text style={styles.temp}>{Math.round(forecasts[1].temp)}℃ ({Math.round(forecasts[1].feels_like)}℃)</Text>
           </View>
+
           <View style={styles.container}>
-            <MaterialCommunityIcons name={forecasts[2].icon_name} size={50} color="black" />
-            <Text style={styles.temp}>{Math.round(forecasts[2].temp)}℃</Text>
-            <Text style={styles.feels_like}>({Math.round(forecasts[2].feels_like)}℃)</Text>
+            <Text style={styles.main}>
+              {new Date(forecasts[2].dt).toLocaleDateString('kor').replace(/\ /gi, "").replace(/\./gi, "/")}
+            </Text>
+            <Text style={styles.main}>
+              {new Date(forecasts[2].dt).toLocaleTimeString('kor').split(":")[0]}시
+            </Text>
+            <MaterialCommunityIcons name={forecasts[2].icon_name} size={50} style={styles.icon}/>
             <Text style={styles.main}>{forecasts[2].main}</Text>
+            <Text style={styles.temp}>{Math.round(forecasts[2].temp)}℃ ({Math.round(forecasts[0].feels_like)}℃)</Text>
           </View>
+
           <View style={styles.container}>
-            <MaterialCommunityIcons name={forecasts[3].icon_name} size={50} color="black" />
-            <Text style={styles.temp}>{Math.round(forecasts[3].temp)}℃</Text>
-            <Text style={styles.feels_like}>({Math.round(forecasts[3].feels_like)}℃)</Text>
+            <Text style={styles.main}>
+              {new Date(forecasts[3].dt).toLocaleDateString('kor').replace(/\ /gi, "").replace(/\./gi, "/")}
+            </Text>
+            <Text style={styles.main}>
+              {new Date(forecasts[3].dt).toLocaleTimeString('kor').split(":")[0]}시
+            </Text>
+            <MaterialCommunityIcons name={forecasts[3].icon_name} size={50} style={styles.icon}/>
             <Text style={styles.main}>{forecasts[3].main}</Text>
+            <Text style={styles.temp}>{Math.round(forecasts[3].temp)}℃ ({Math.round(forecasts[0].feels_like)}℃)</Text>
           </View>
+
           <View style={styles.container}>
-            <MaterialCommunityIcons name={forecasts[4].icon_name} size={50} color="black" />
-            <Text style={styles.temp}>{Math.round(forecasts[4].temp)}℃</Text>
-            <Text style={styles.feels_like}>({Math.round(forecasts[4].feels_like)}℃)</Text>
+            <Text style={styles.main}>
+              {new Date(forecasts[4].dt).toLocaleDateString('kor').replace(/\ /gi, "").replace(/\./gi, "/")}
+            </Text>
+            <Text style={styles.main}>
+              {new Date(forecasts[4].dt).toLocaleTimeString('kor').split(":")[0]}시
+            </Text>
+            <MaterialCommunityIcons name={forecasts[4].icon_name} size={50} style={styles.icon}/>
             <Text style={styles.main}>{forecasts[4].main}</Text>
+            <Text style={styles.temp}>{Math.round(forecasts[4].temp)}℃ ({Math.round(forecasts[0].feels_like)}℃)</Text>
           </View>
+          
         </View>)
       }
-
       </View>
     )
   }
@@ -100,7 +132,7 @@ export default class extends React.Component {
 
 const styles = StyleSheet.create({
   root: {
-    width: "60vh",
+    width: "80vh",
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
@@ -111,16 +143,35 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
   },
-  temp: {
-    fontSize: 14,
-    fontWeight: "800",
+  icon: {
+    color: "white",
+    textShadowColor: "black",
+    textShadowOffset:{
+        width: 3,
+        height: 1,
+    }  
   },
-  feels_like: {
-    fontSize: 14,
-    fontWeight: "650",
+  temp: {
+    fontSize: 16,
+    fontWeight: "800",
+    color: "white",
+    textShadowColor: "black",
+    textShadowOffset:{
+        width: 3,
+        height: 1,
+    },
+    textShadowRadius: 10,
   },
   main: {
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: "800",
+    color: "white",
+    textShadowColor: "black",
+    textShadowOffset:{
+        width: 3,
+        height: 1,
+    },
+    textShadowRadius: 10,
+
   },
 });
