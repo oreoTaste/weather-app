@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, StatusBar } from "react-native";
 import * as Location from "expo-location";
 import Weather from "./Weather";
 
@@ -19,11 +19,15 @@ class App extends React.Component {
   //
 
   getWeatherForecast = async ({ altitude, latitude, longitude, speed }) => {
+
+    latitude = 37.5752618;
+    longitude = 126.8194859;
+
+
     // 현재 날씨 정보
     // feels_like, temp, weather[0].main
     const {
       data: {
-        main,
         main: { feels_like, temp },
         weather,
       },
@@ -54,7 +58,6 @@ class App extends React.Component {
       current: {
         feels_like,
         temp,
-        weather,
       },
       weather,
       // 예보
@@ -70,6 +73,7 @@ class App extends React.Component {
   };
 
   getLocation = async () => {
+    await Location.requestPermissionsAsync();
     const { coords } = await Location.getCurrentPositionAsync();
     this.getWeatherForecast(coords);
   };
@@ -83,7 +87,8 @@ class App extends React.Component {
     const {
       isLoading,
       // 현재 날씨
-      current: { feels_like, temp, weather},
+      current: { feels_like, temp },
+      weather,
       // 예보
       weathers,
       // 도시정보
@@ -95,12 +100,18 @@ class App extends React.Component {
       speed,
     } = this.state;
 
+    var main;
+    for(let i in weather ) {
+      main = weather[0].main;
+    }
+
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
         {isLoading ? (
           <Text>Loading...</Text>
         ) : (
-            <Weather city={city} feels_like={feels_like} temp={temp} weather={weather[0].main} weathers={weathers} />
+            <Weather city={city} feels_like={feels_like} temp={temp} weather={main} weathers={weathers} />
         )}
       </View>
     );
@@ -111,7 +122,6 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "red",
     alignItems: "center",
     justifyContent: "center",
   },

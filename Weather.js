@@ -6,8 +6,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Forecast from "./Forecast";
 
 function Weather({city, feels_like, temp, weather, weathers}) {
-    const icon = {
-        name,
+    var icon = {
+        name: "",
         colors:[],
     };
 
@@ -29,21 +29,22 @@ function Weather({city, feels_like, temp, weather, weathers}) {
         case "Clear": icon.name="weather-sunny"; icon.colors=["#f83600", "#fe8c00"]; break;
     }
 
-    console.log(weathers);
     return (
         <LinearGradient
         colors={icon.colors}
-        style={{ height: "100vh", width: "100vh", alignItems: 'center'}}
+        style={{ height: "100%", width: "100%", alignItems: 'center'}}
         >
             <View style={styles.container}>
                 <View style={styles.first_half}>
                     <MaterialCommunityIcons name={icon.name} size={150} style={styles.icon}/>
                     <Text style={styles.weather}>{weather}</Text>
-                    <Text style={styles.current}>{Math.round(temp*10)/10}℃ ({Math.round(feels_like*10)/10}℃)</Text>
+                    <Text style={styles.tempGroup}>
+                        <Text style={styles.temp}>{Math.round(temp)}℃ </Text>
+                        <Text style={styles.feels_like}>({Math.round(feels_like)}℃)</Text>
+                    </Text>
                     <Text style={styles.city}>{city.name}, {city.country}</Text>
                 </View>
                 <View style={styles.second_half}>
-                    <View style={styles.hr}/>
                     <Forecast weathers={weathers}/>
                 </View>
             </View>
@@ -53,7 +54,7 @@ function Weather({city, feels_like, temp, weather, weathers}) {
 export default Weather;
 
 Weather.propTypes = {
-    weather : PropTypes.oneOf([
+    weather: PropTypes.oneOf([
         "Thunderstorm","Drizzle","Rain","Snow","Mist","Smoke","Haze","Dust","Fog","Sand","Ash","Squall","Tornado","Clear","Clouds"
     ]).isRequired
 }
@@ -62,9 +63,10 @@ Weather.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        width: "80%",
     },
     first_half: {
-        flex: 1,
+        flex: 2,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -75,7 +77,8 @@ const styles = StyleSheet.create({
             width: 6,
             height: 3,
         },
-        marginTop: "50px",
+        textShadowRadius: 1,
+        marginTop: "10%",
     },
     weather: {
         fontSize: 35,
@@ -87,10 +90,26 @@ const styles = StyleSheet.create({
             height: 3,
         },
         textShadowRadius: 8,
-        marginBottom: "50px",
+        marginBottom: "3%",
     },
-    current: {
-        fontSize: 41,
+    tempGroup: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    temp: {
+        fontSize: 25,
+        fontWeight: "bold",
+        color: "white",
+        textShadowColor: "black",
+        textShadowOffset:{
+            width: 6,
+            height: 3,
+        },
+        textShadowRadius: 8,
+    },
+    feels_like: {
+        fontSize: 15,
         fontWeight: "bold",
         color: "white",
         textShadowColor: "black",
@@ -110,20 +129,11 @@ const styles = StyleSheet.create({
             height: 3,
         },
         textShadowRadius: 8,
+        marginTop: "5%",
     },
     second_half: {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-    },
-    hr: {
-        borderBottomColor: "black",
-        width: "80vh",
-        height: "7px",
-        backgroundColor: "#e5e5e5",
-        borderRadius: "500px",
-        boxShadow: "2px 2px 2px #373737",
-        marginBottom: "5%",
-        marginTop: "20%",
     },
 });
